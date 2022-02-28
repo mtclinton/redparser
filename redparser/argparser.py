@@ -23,6 +23,11 @@ optional arguments:
 
 '''
 
+def arg_error(error=None):
+    if error:
+        print(error)
+    print(help)
+    sys.exit(1)
 def argparser(terminalargs, mmap_possible):
     # ugggh wish i could use argparser for this
     # hacky way
@@ -31,44 +36,32 @@ def argparser(terminalargs, mmap_possible):
 
     def argcheck(key):
         if key in args.keys():
-            print("Please only enter command once\n")
-            print(help)
-            sys.exit(1)
-
-
-
+            arg_error("Please only enter command once\n")
     len_termargs = len(terminalargs)
     if len_termargs == 0:
-        print(help)
-        sys.exit(1)
-
-
+        arg_error()
 
     if mmap_possible:
         len_termargs -= 1
         terminalargs = terminalargs[:len_termargs]
 
     if len_termargs == 0:
-        print("Please input commands\n")
-        print(help)
-        sys.exit(1)
+        arg_error("Please input commands\n")
+
     else:
         i = 0
         while i < len_termargs:
             if terminalargs[i] == '--first' or terminalargs[i] == '-f':
                 argcheck(terminalargs[i])
                 if i +1 >= len_termargs or not validate_first(terminalargs[i+1]):
-                    print("Input a positive number for the --first command\n")
-                    print(help)
-                    sys.exit(1)
+                    arg_error("Input a positive number for the --first command\n")
+
                 args['first'] = int(terminalargs[i+1])
                 i += 2
             elif terminalargs[i] == '--last' or terminalargs[i] == '-l':
                 argcheck(terminalargs[i])
                 if i +1 > len_termargs or not validate_last(terminalargs[i+1]):
-                    print("Input a positive number for the --last command\n")
-                    print(help)
-                    sys.exit(1)
+                    arg_error("Input a positive number for the --last command\n")
                 args['last'] = int(terminalargs[i+1])
                 i += 2
             elif terminalargs[i] == '--timestamps' or terminalargs[i] == '-t':
@@ -81,9 +74,8 @@ def argparser(terminalargs, mmap_possible):
                 invalids = ['--first', '-f','--last', 'l', '--timestamps', '-t', '-i', '--ipv4', '-I', '--ipv6']
                 if i +1 < len_termargs and (terminalargs[i+1] not in invalids):
                     if not validate_ipv4(terminalargs[i+1]):
-                        print("Input a valid ipv4 address for the --ipv4 command\n")
-                        print(help)
-                        sys.exit(1)
+                        arg_error("Input a valid ipv4 address for the --ipv4 command\n")
+
                     args['ipv4'] = terminalargs[i+1]
                     i += 2
 
@@ -96,9 +88,7 @@ def argparser(terminalargs, mmap_possible):
                 invalids = ['--first', '-f','--last', 'l', '--timestamps', '-t', '-i', '--ipv4', '-I', '--ipv6']
                 if i +1 < len_termargs and (terminalargs[i+1] not in invalids):
                     if not validate_ipv6(terminalargs[i+1]):
-                        print("Input a valid ipv6 address for the --ipv6 command\n")
-                        print(help)
-                        sys.exit(1)
+                        arg_error("Input a valid ipv6 address for the --ipv6 command\n")
                     args['ipv6'] = terminalargs[i+1]
                     i += 2
                 else:
@@ -106,9 +96,7 @@ def argparser(terminalargs, mmap_possible):
                     i += 1
 
             else:
-                print("You inputted an unknown commands\n")
-                print(help)
-                sys.exit(1)
+                arg_error("You inputted an unknown commands\n")
 
     # now the fun part
     # later refactor to only have arg be object at beginning

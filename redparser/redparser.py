@@ -10,10 +10,7 @@ from collections import namedtuple
 from .cmd_action import *
 from .argparser import *
 
-
 def main():
-
-
 
     terminalargs = sys.argv[1:]
 
