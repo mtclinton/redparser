@@ -9,9 +9,13 @@ def lighter(line):
     """
     prints table of formatted text format options
     """
-    fg = random.randint(30, 38)
+    # fg = random.randint(30, 38)
+    # just make text black
+    fg = 30
     s1 = ''
-    bg = random.randint(40, 48)
+    # bg = random.randint(40, 48)
+    # don't want a black backgroun
+    bg = random.randint(41,48)
     if bg == fg:
         if fg < 35:
             bg = bg in range(45, 48)
