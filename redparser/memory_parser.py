@@ -2,6 +2,9 @@ import re
 import ipaddress
 import collections
 
+from .mmap_parser import ipv4, ipv6
+
+
 def memory_first(bytes_obj, num_lines=0, callback=None, callback2=None):
     try:
         file_length = len(bytes_obj)-1
@@ -87,7 +90,6 @@ def memory_timestamp_all(bytes_obj):
     except Exception as e:
         raise ValueError(e)
 
-from .mmap_parser import ipv4, ipv6
 def memory_ipv4_all(bytes_obj):
     return memory_first(bytes_obj, -1, ipv4)
 
