@@ -4,8 +4,8 @@ Redparser is a simple Python program that can parse a log based on command line 
 
 ## Usage
 
-Run `util.py` as a Python script, passing as the log file as the last argument to utilize
-the mmap library for fast searches or push the log file to memory for the util to read if from stdin.
+Run `util.py` as a Python script, passing the log file as the last argument to utilize
+the mmap library for fast searches or push the log file to memory for the util to read log file from stdin.
 
 Example:
 
