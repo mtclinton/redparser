@@ -35,7 +35,7 @@ optional arguments:
 
 ```
 
-## Install through pip
+## Install with pip
 ```
 pip install redparser
 ```
