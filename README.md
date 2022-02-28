@@ -35,6 +35,12 @@ optional arguments:
 
 ```
 
+## Install through pip
+```
+pip install redparser
+```
+
+
 ## TODO
 
 - [ ] More readable highlighting of ip address
