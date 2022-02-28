@@ -76,3 +76,20 @@ def memory_last(bytes_obj, num_lines=0, callback=None, callback2=None):
 
     except Exception as e:
         print(e)
+
+def memory_timestamp_all(bytes_obj):
+    try:
+        ts = re.compile(rb'.*(?:[01]\d|2[0123]):(?:[012345]\d):(?:[012345]\d[^\n]*)')
+
+        matches = ts.findall(bytes_obj)
+        print(b'\n'.join(matches).decode('utf-8'))
+
+    except Exception as e:
+        raise ValueError(e)
+
+from .mmap_parser import ipv4, ipv6
+def memory_ipv4_all(bytes_obj):
+    return memory_first(bytes_obj, -1, ipv4)
+
+def memory_ipv6_all(bytes_obj):
+    return memory_first(bytes_obj, -1, ipv6)
