@@ -1,12 +1,5 @@
 #!/usr/bin/python3
 
-import argparse
-import mmap
-import sys
-import re
-import ipaddress
-from collections import namedtuple
-
 from .cmd_action import *
 from .argparser import *
 
