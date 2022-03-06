@@ -31,11 +31,13 @@ def validate_timestamp(input):
         m = re.search(p, input)
         # matched the ReGex otherwise False
         if m is None:
-            raise ValueError("Input timestamp as HH:MM:SS")
+            return False
+            # raise ValueError("Input timestamp as HH:MM:SS")
     return True
 
 
 def validate_ipv4(input):
+    # think -1 should be string
     if input != -1:
         try:
             ipaddress.IPv4Address(input)
