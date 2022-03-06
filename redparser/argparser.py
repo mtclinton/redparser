@@ -1,7 +1,4 @@
 import sys
-import re
-import ipaddress
-from collections import namedtuple
 
 from .validator import *
 
@@ -23,7 +20,6 @@ optional arguments:
 
 '''
 
-
 class Arguments():
 
     def __init__(self):
@@ -43,8 +39,8 @@ def argparser(terminalargs, mmap_possible):
 
     args = Arguments()
 
-    def argcheck(key):
-        if hasattr(key, 'property'):
+    def argcheck(arg_list, key):
+        if arg_list.count(key) - 1:
             arg_error("Please only enter command once\n")
 
     len_termargs = len(terminalargs)
@@ -63,7 +59,7 @@ def argparser(terminalargs, mmap_possible):
         while i < len_termargs:
             if terminalargs[i] == '--first' or terminalargs[i] == '-f':
 
-                argcheck(terminalargs[i])
+                argcheck(terminalargs, terminalargs[i])
                 if i +1 >= len_termargs or not validate_first(terminalargs[i+1]):
                     arg_error("Input a positive number for the --first command\n")
 
@@ -72,7 +68,7 @@ def argparser(terminalargs, mmap_possible):
 
             elif terminalargs[i] == '--last' or terminalargs[i] == '-l':
 
-                argcheck(terminalargs[i])
+                argcheck(terminalargs, terminalargs[i])
                 if i +1 > len_termargs or not validate_last(terminalargs[i+1]):
                     arg_error("Input a positive number for the --last command\n")
 
@@ -81,13 +77,13 @@ def argparser(terminalargs, mmap_possible):
 
             elif terminalargs[i] == '--timestamps' or terminalargs[i] == '-t':
 
-                argcheck(terminalargs[i] )
+                argcheck(terminalargs, terminalargs[i])
                 args.timestamps = "-1"
                 i+=1
 
             elif terminalargs[i] == '--ipv4' or terminalargs[i] == '-i':
 
-                argcheck(terminalargs[i] )
+                argcheck(terminalargs, terminalargs[i])
                 invalids = ['--first', '-f','--last', 'l', '--timestamps', '-t', '-i', '--ipv4', '-I', '--ipv6']
 
                 if i +1 < len_termargs and (terminalargs[i+1] not in invalids):
@@ -102,7 +98,7 @@ def argparser(terminalargs, mmap_possible):
                     i += 1
 
             elif terminalargs[i] == '--ipv6' or terminalargs[i] == '-I':
-                argcheck(terminalargs[i] )
+                argcheck(terminalargs, terminalargs[i])
                 invalids = ['--first', '-f','--last', 'l', '--timestamps', '-t', '-i', '--ipv4', '-I', '--ipv6']
                 if i +1 < len_termargs and (terminalargs[i+1] not in invalids):
                     if not validate_ipv6(terminalargs[i+1]):

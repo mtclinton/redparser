@@ -32,7 +32,6 @@ def validate_timestamp(input):
         # matched the ReGex otherwise False
         if m is None:
             return False
-            # raise ValueError("Input timestamp as HH:MM:SS")
     return True
 
 
@@ -52,3 +51,4 @@ def validate_ipv6(input):
         except Exception as e:
             return False
     return True
+
