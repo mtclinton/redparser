@@ -6,7 +6,8 @@ import pathlib
 import pytest
 
 # redparser imports
-import redparser
+from redparser.arguments import Arguments
+from redparser.parser import Parser
 
 # Current directory
 HERE = pathlib.Path(__file__).resolve().parent
@@ -24,6 +25,9 @@ def test_ipv6_count(test_log_file):
     """Test that we are getting right number of ipv6 lines"""
     expected = 1012 # ipv6 lines
     with open('./tests/test.log', 'rb') as file_obj:
-        result = redparser.ipv6_all(file_obj)
+        args = Arguments(['-I', 'test.log'], 1)
+        p = Parser(file_obj, args)
+        result = p.engine()
         result_list = result.splitlines()
+
     assert len(result_list)== expected

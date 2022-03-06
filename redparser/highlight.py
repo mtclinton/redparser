@@ -31,7 +31,7 @@ def highlighter_ipv4(results):
     ipv4s = pattern.findall(results)
     for ip in set(ipv4s):
         results = results.replace(ip, lighter(ip))
-    return results
+    print(results)
 
 def highlighter_ipv6(results):
     ipv6_address = re.compile(ipv6_regex)
@@ -39,7 +39,7 @@ def highlighter_ipv6(results):
     ipv6s = ipv6_address.findall(results)
     for ip in set(ipv6s):
         results = results.replace(ip, lighter(ip))
-    return results
+    print(results)
 
 def highlight_both(results):
     ipv6_address = re.compile(ipv6_regex)
@@ -53,4 +53,4 @@ def highlight_both(results):
     for ip in set(ipv4s):
         results = results.replace(ip, lighter(ip))
 
-    return results
+    print(results)

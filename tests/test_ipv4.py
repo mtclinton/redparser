@@ -6,7 +6,8 @@ import pathlib
 import pytest
 
 # redparser imports
-import redparser
+from redparser.arguments import Arguments
+from redparser.parser import Parser
 
 # Current directory
 HERE = pathlib.Path(__file__).resolve().parent
@@ -24,7 +25,8 @@ def test_ipv4_count(test_log_file):
     """Test that we are getting right number of ipv4 lines"""
     expected = 210 # ipv4 lines
     with open('./tests/test.log', 'rb') as file_obj:
-        result = redparser.ipv4_all(file_obj)
+        args = Arguments(['-i', 'test.log'], 1)
+        p = Parser(file_obj, args)
+        result = p.engine()
         result_list = result.splitlines()
-        print(len(result_list))
-    assert len(result_list)== expected
+    assert len(result_list) == expected

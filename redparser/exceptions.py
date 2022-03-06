@@ -8,12 +8,13 @@ class RedParserError(Exception):
     pass
 
 class HelpError():
-    """Exception raised for command line with no arguments or with -h or --help in arguments
-        in the command line arguments.
+    """
+    Exception raised for command line with no arguments or with -h or --help in arguments
+    in the command line arguments.
 
-        Attributes:
-            help -- redparser help output
-        """
+    Attributes:
+        help -- redparser help output
+    """
     def __init__(self, help=help):
         self.help = help
         print(self.help)
@@ -21,7 +22,8 @@ class HelpError():
         sys.exit(1)
 
 class NonUniqueCmdlineArgumentError(HelpError):
-    """Exception raised for errors in the command line arguments.
+    """
+    Exception raised for errors in the command line arguments.
 
     Attributes:
         nonunique -- the command argument that was added multiple times
@@ -35,7 +37,8 @@ class NonUniqueCmdlineArgumentError(HelpError):
         super().__init__()
 
 class ArgumentError(HelpError):
-    """Exception raised for errors in the command line arguments.
+    """
+    Exception raised for errors in the command line arguments.
 
     Attributes:
         message -- explanation of the error
@@ -47,7 +50,8 @@ class ArgumentError(HelpError):
         super().__init__()
 
 class LogReadError(HelpError):
-    """Exception raised for errors in the reading log.
+    """
+    Exception raised for errors in the reading log.
 
     Attributes:
         message -- explanation of the error

@@ -17,6 +17,7 @@ class Arguments:
         self.termargs_length = len(terminal_arguments)
         self.mmap = mmap_possible
         self.skip = False
+
         self.enable_mmap()
         self.run()
 
