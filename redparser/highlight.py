@@ -2,25 +2,27 @@ import random
 import re
 
 def lighter(line):
-    """
-    prints table of formatted text format options
-    """
-    # fg = random.randint(30, 38)
-    # just make text black
-    fg = 30
-    s1 = ''
-    # bg = random.randint(40, 48)
-    # don't want a black backgroun
-    bg = random.randint(41,48)
-    if bg == fg:
-        if fg < 35:
-            bg = bg in range(45, 48)
-        else:
-            bg = bg in range(40, 44)
+    # https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters
 
-    format = ';'.join([str(1), str(fg), str(bg)])
-    s1 += '\x1b[%sm %s \x1b[0m' % (format, line)
-    return s1
+    # make style bold
+    style = 1
+
+    # just make text black
+    textcolor = 30
+
+
+    bg = random.randint(40,47)
+    if bg == 40:
+        #background is black so change textcolor
+        textcolor = 97
+
+    # add bright colors 50% chance
+    if random.randint(0, 1):
+        bg += 60
+
+    format = ';'.join([str(style), str(textcolor), str(bg)])
+
+    return '\x1b[%sm %s \x1b[0m' % (format, line)
 
 def highlighter_ipv4(results):
     pattern = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
