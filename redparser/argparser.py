@@ -1,115 +1,83 @@
 import sys
 
 from .validator import *
+from .exceptions import *
+from .constants import ip_argument_invalids
 
-help = '''
-usage: ./util.py [OPTION]... [FILE]
-usage: cat [FILE] | ./util.py [OPTION]
-usage: mmap-logparser [OPTION]... [FILE]
-usage: cat [FILE] | mmap-logparser[OPTION]
 
-Parse logs of various kinds
+class Arguments:
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -f, --first NUM       Print first NUM lines
-  -l, --last NUM        Print last NUM lines
-  -t, --timestamps      Print lines that contain a timestamp in HH:MM:SS format
-  -i, --ipv4 IP         Print lines that contain an IPv4 address, matching IPs (Optional) highlighted
-  -I, --ipv6 IP         Print lines that contain an IPv6 address, matching IPs (Optional) highlighted
-
-'''
-
-class Arguments():
-
-    def __init__(self):
+    def __init__(self, terminal_arguments, mmap_possible):
         self.first = None
         self.last = None
         self.timestamps = None
         self.ipv4 = None
         self.ipv6 = None
+        self.termargs = terminal_arguments
+        self.termargs_length = len(terminal_arguments)
+        self.mmap = mmap_possible
+        self.skip = False
+        self.enable_mmap()
+        self.run()
 
-def arg_error(error=None):
-    if error:
-        print(error)
-    print(help)
-    sys.exit(1)
+    def unique(self, key):
+        if self.termargs.count(key) - 1:
+            NonUniqueCmdlineArgumentError(key)
 
-def argparser(terminalargs, mmap_possible):
+    def enable_mmap(self):
+        if self.mmap:
+            # log file at end so no need to parse this
+            self.termargs_length -= 1
+            self.termargs = self.termargs[:self.termargs_length]
 
-    args = Arguments()
+    def run(self):
+        for index, argument in enumerate(self.termargs):
+            if self.skip:
+                self.skip = False
+                continue
 
-    def argcheck(arg_list, key):
-        if arg_list.count(key) - 1:
-            arg_error("Please only enter command once\n")
+            if argument == '--first' or argument == '-f':
+                self.unique(argument)
+                if index + 1 >= self.termargs_length or not validate_first(self.termargs[index + 1]):
+                    ArgumentError("Input a positive number for the --first command\n")
 
-    len_termargs = len(terminalargs)
-    if len_termargs == 0:
-        arg_error()
+                self.first = int(self.termargs[index + 1])
+                self.skip = True
 
-    if mmap_possible:
-        len_termargs -= 1
-        terminalargs = terminalargs[:len_termargs]
+            elif argument == '--last' or argument == '-l':
+                self.unique(argument)
+                if index + 1 >= self.termargs_length or not validate_first(self.termargs[index + 1]):
+                    ArgumentError("Input a positive number for the --last command\n")
 
-    if len_termargs == 0:
-        arg_error("Please input commands\n")
+                self.last = int(self.termargs[index + 1])
+                self.skip = True
 
-    else:
-        i = 0
-        while i < len_termargs:
-            if terminalargs[i] == '--first' or terminalargs[i] == '-f':
+            elif argument == '--timestamps' or argument == '-t':
+                self.unique(argument)
+                self.timestamps = True
 
-                argcheck(terminalargs, terminalargs[i])
-                if i +1 >= len_termargs or not validate_first(terminalargs[i+1]):
-                    arg_error("Input a positive number for the --first command\n")
+            elif argument == '--ipv4' or argument == '-i':
+                self.unique(argument)
+                if index + 1 < self.termargs_length and (self.termargs[index + 1]not in ip_argument_invalids):
+                    if not validate_ipv4(self.termargs[index + 1]):
+                        ArgumentError("Input a valid ipv4 address for the --ipv4 command\n")
 
-                args.first = int(terminalargs[i+1])
-                i += 2
-
-            elif terminalargs[i] == '--last' or terminalargs[i] == '-l':
-
-                argcheck(terminalargs, terminalargs[i])
-                if i +1 > len_termargs or not validate_last(terminalargs[i+1]):
-                    arg_error("Input a positive number for the --last command\n")
-
-                args.last = int(terminalargs[i+1])
-                i += 2
-
-            elif terminalargs[i] == '--timestamps' or terminalargs[i] == '-t':
-
-                argcheck(terminalargs, terminalargs[i])
-                args.timestamps = "-1"
-                i+=1
-
-            elif terminalargs[i] == '--ipv4' or terminalargs[i] == '-i':
-
-                argcheck(terminalargs, terminalargs[i])
-                invalids = ['--first', '-f','--last', 'l', '--timestamps', '-t', '-i', '--ipv4', '-I', '--ipv6']
-
-                if i +1 < len_termargs and (terminalargs[i+1] not in invalids):
-                    if not validate_ipv4(terminalargs[i+1]):
-                        arg_error("Input a valid ipv4 address for the --ipv4 command\n")
-
-                    args.ipv4 = terminalargs[i+1]
-                    i += 2
+                    self.ipv4 = self.termargs[index + 1]
+                    self.skip = True
 
                 else:
-                    args.ipv4 = "-1"
-                    i += 1
+                    self.ipv4 = True
 
-            elif terminalargs[i] == '--ipv6' or terminalargs[i] == '-I':
-                argcheck(terminalargs, terminalargs[i])
-                invalids = ['--first', '-f','--last', 'l', '--timestamps', '-t', '-i', '--ipv4', '-I', '--ipv6']
-                if i +1 < len_termargs and (terminalargs[i+1] not in invalids):
-                    if not validate_ipv6(terminalargs[i+1]):
-                        arg_error("Input a valid ipv6 address for the --ipv6 command\n")
-                    args.ipv6 = terminalargs[i+1]
-                    i += 2
+            elif argument == '--ipv6' or argument == '-I':
+                self.unique(argument)
+                if index + 1 < self.termargs_length and (self.termargs[index + 1] not in ip_argument_invalids):
+                    if not validate_ipv6(self.termargs[index + 1]):
+                        ArgumentError("Input a valid ipv6 address for the --ipv6 command\n")
+
+                    self.ipv6 = self.termargs[index + 1]
+                    self.skip = True
                 else:
-                    args.ipv6 = "-1"
-                    i += 1
+                    self.ipv6 = True
 
             else:
-                arg_error("You inputted an unknown commands\n")
-
-    return args
+                ArgumentError("You inputted an unknown commands\n")
