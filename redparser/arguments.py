@@ -1,7 +1,7 @@
 import sys
 
-from .validator import *
-from .exceptions import *
+from .validator import validate_first, validate_last, validate_ipv4, validate_ipv6, validate_timestamp
+from .exceptions import NonUniqueCmdlineArgumentError, ArgumentError
 from .constants import ip_argument_invalids
 
 
@@ -47,7 +47,7 @@ class Arguments:
 
             elif argument == '--last' or argument == '-l':
                 self.unique(argument)
-                if index + 1 >= self.termargs_length or not validate_first(self.termargs[index + 1]):
+                if index + 1 >= self.termargs_length or not validate_last(self.termargs[index + 1]):
                     ArgumentError("Input a positive number for the --last command\n")
 
                 self.last = int(self.termargs[index + 1])

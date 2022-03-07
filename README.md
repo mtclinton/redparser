@@ -43,7 +43,5 @@ pip install redparser
 
 ## TODO
 
-- [ ] More readable highlighting of ip address
-- [ ] Refactor argparser to be more readable and use better data structures
-- [ ] More testing needs to be added
+- [ ] Search by timestamp
 - [ ] Should be able to check ip address from cmdline matches a line (easy fix)

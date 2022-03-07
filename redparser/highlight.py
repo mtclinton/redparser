@@ -1,7 +1,7 @@
 import random
 import re
 
-from .constants import *
+from .constants import ipv4_regex, ipv6_regex
 
 def lighter(line):
     # https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters
@@ -15,7 +15,7 @@ def lighter(line):
 
     bg = random.randint(40,47)
     if bg == 40:
-        #background is black so change textcolor
+        #background is black so change textcolor to white
         textcolor = 97
 
     # add bright colors 50% chance
@@ -24,7 +24,7 @@ def lighter(line):
 
     format = ';'.join([str(style), str(textcolor), str(bg)])
 
-    return '\x1b[%sm %s \x1b[0m' % (format, line)
+    return '\x1b[%sm%s\x1b[0m' % (format, line)
 
 def highlighter_ipv4(results):
     pattern = re.compile(ipv4_regex)
@@ -52,5 +52,4 @@ def highlight_both(results):
     ipv4s = pattern.findall(results)
     for ip in set(ipv4s):
         results = results.replace(ip, lighter(ip))
-
     print(results)
