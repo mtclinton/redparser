@@ -19,6 +19,7 @@ def test_log_file():
 #
 # Tests
 #
+# mmap tests
 def test_ipv4_count_test_log(test_log_file):
     """Test that we are getting right number of ipv4 lines"""
     expected = 210 # ipv4 lines
@@ -34,6 +35,32 @@ def test_ipv4_count_ipv4_log(test_log_file):
     expected = 8
     with open('./tests/ipv4.log', 'rb') as file_obj:
         args = Arguments(['-i', 'test.log'], 1)
+        p = Parser(file_obj, args)
+        result = p.engine()
+        print(result)
+        result_list = result.splitlines()
+    assert len(result_list) == expected
+
+# memory tests
+def test_memory_ipv4_count_test_log(test_log_file):
+    """Test that we are getting right number of ipv4 lines"""
+    expected = 210 # ipv4 lines
+    with open('./tests/test.log', 'rb') as file_obj:
+        # convert to binary
+        file_obj = file_obj.read()
+        args = Arguments(['-i'], 0)
+        p = Parser(file_obj, args)
+        result = p.engine()
+        result_list = result.splitlines()
+    assert len(result_list) == expected
+
+def test_memory_ipv4_count_ipv4_log(test_log_file):
+    """Test that we are getting right number of ipv4 lines"""
+    expected = 8
+    with open('./tests/ipv4.log', 'rb') as file_obj:
+        # convert to binary
+        file_obj = file_obj.read()
+        args = Arguments(['-i'], 0)
         p = Parser(file_obj, args)
         result = p.engine()
         print(result)
