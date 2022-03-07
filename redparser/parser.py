@@ -156,7 +156,6 @@ class Parser():
             found_items = []
             while self.num_lines != 0 and endpointer < file_length:
                 endpointer = self.file_obj.find(b'\n', startpointer, file_length) + 1
-                # have to track pointers to print logs in reverse order
 
                 # end of file
                 if endpointer == 0:
@@ -166,9 +165,9 @@ class Parser():
                     self.num_lines -= 1
                 else:
                     # shift by one to be like first
-                    success = self.followup(self.file_obj[startpointer + 1:endpointer + 1])
+                    success = self.followup(self.file_obj[startpointer:endpointer])
                     if success:
-                        found_items.append([startpointer + 1, endpointer + 1])
+                        found_items.append([startpointer, endpointer])
                         self.num_lines -= 1
 
                 startpointer = endpointer
