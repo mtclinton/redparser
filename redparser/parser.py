@@ -105,7 +105,6 @@ class Parser():
                 else:
                     result = ""
                     for item in found_items:
-                        print(mmap_obj[item[0]:item[1]])
                         result += mmap_obj[item[0]:item[1]].decode('utf-8')
                     return result.rstrip('\n')
 
@@ -141,7 +140,6 @@ class Parser():
                     result = ""
                     for item in found_items:
                         result += mmap_obj[item[0]:item[1]].decode('utf-8')
-                    print(result.encode('utf-8'))
 
                     return result.rstrip('\n')
 

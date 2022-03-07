@@ -21,11 +21,42 @@ def test_log_file():
 #
 # Tests
 #
-def test_timestamps(test_log_file):
+# mmap tests
+def test_timestamps_test_log(test_log_file):
     """Test that we are getting right data for timestamp lines. right now all logs have timestamps so should be 2000"""
     with open('./tests/test.log', 'rb') as file_obj:
-        args = Arguments(['-t', 'example.log'], 1)
+        args = Arguments(['-t', 'test.log'], 1)
         p = Parser(file_obj, args)
         result = p.engine()
         result_list = result.splitlines()
     assert len(result_list) == 2000
+
+def test_timestamps_timestamp_log(test_log_file):
+    """Test that we are getting right data for timestamp lines. right now all logs have timestamps so should be 2000"""
+    with open('./tests/timestamp.log', 'rb') as file_obj:
+        args = Arguments(['-t', 'test.log'], 1)
+        p = Parser(file_obj, args)
+        result = p.engine()
+        result_list = result.splitlines()
+    assert len(result_list) == 6
+
+# memory tests
+def test_timestamps_test_log(test_log_file):
+    """Test that we are getting right data for timestamp lines. right now all logs have timestamps so should be 2000"""
+    with open('./tests/test.log', 'rb') as file_obj:
+        file_obj = file_obj.read()
+        args = Arguments(['-t'], 0)
+        p = Parser(file_obj, args)
+        result = p.engine()
+        result_list = result.splitlines()
+    assert len(result_list) == 2000
+
+def test_timestamps_timestamp_log(test_log_file):
+    """Test that we are getting right data for timestamp lines. right now all logs have timestamps so should be 2000"""
+    with open('./tests/timestamp.log', 'rb') as file_obj:
+        file_obj = file_obj.read()
+        args = Arguments(['-t'], 0)
+        p = Parser(file_obj, args)
+        result = p.engine()
+        result_list = result.splitlines()
+    assert len(result_list) == 6
