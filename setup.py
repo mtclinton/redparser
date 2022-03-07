@@ -7,7 +7,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name="redparser",
-    version="1.0.1",
+    version="2.0.0",
     author="mtclinton",
     author_email="max@mtclinton.com",
     description='Simple Python library to use parse log files',

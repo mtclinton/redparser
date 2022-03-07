@@ -1,0 +1,13 @@
+[Test log] 127.0.0.1 8 valid addresses
+[Test log] 192.168.1.1
+[Test log] 192.168.1.255
+[Test log] 255.255.255.255
+[Test log] 0.0.0.0
+[Test log] 30.168.1.255.1
+[Test log]  1.2.3.4
+[Test log] 1.1.1.1
+[Test log] 3...3            # This is an invalid IP address!
+[Test log] 1.1.1.01         # This is an invalid IP address!
+[Test log] 255.255.255.256  # This is an invalid IP address!
+[Test log] 127.1            # This is an invalid IP address!
+[Test log] 192.168.1.256    # This is an invalid IP address!

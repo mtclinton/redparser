@@ -1,0 +1,13 @@
+[Test log] 00:00:00  2001:0000:1234:0000:0000:C1C0:ABCD:0876 8 valid addresses
+[Test log]  10:00:00 3ffe:0b00:0000:0000:0001:0000:0000:000a
+[Test log] 20:43:00  FF02:0000:0000:0000:0000:0000:0000:0001
+[Test log]  23:59:59 0000:0000:0000:0000:0000:0000:0000:0001
+[Test log]  99::00:00 0000:0000:0000:0000:0000:0000:0000:0000         # This is an invalid timestamp!
+[Test log] 00:99:00  ::ffff:192.168.1.2   # This is an invalid timestamp!
+[Test log]  00:00:77 2001:0000:1234:0000:0000:C1C0:ABCD:0876         # This is an invalid timestamp!
+[Test log]  04:400:00 2::10         # This is an invalid timestamp!
+[Test log] 2001:0000:1234:0000:00001:C1C0:ABCD:0876            # This is an invalid IP address!
+[Test log] 2001:0000:1234: 0000:0000:C1C0:ABCD:0876        # This is an invalid IP address!
+[Test log] 001:1:1:1:1:1:255Z255X255Y255  # This is an invalid IP address!
+[Test log] 00:44:00  1:300.300.300.300           # This is an invalid IP address but a valid timestamp!
+[Test log] 05:45:09 3ffe:0b00:0000:0001:0000:0000:000a    # This is an invalid IP address but a valid timestamp!
