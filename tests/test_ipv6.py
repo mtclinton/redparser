@@ -43,29 +43,3 @@ def test_ipv6_count_ipv6_log(test_log_file):
         print(result)
         result_list = result.splitlines()
     assert len(result_list) == expected
-
-
-# memory tests
-def test_memory_ipv6_count(test_log_file):
-    """Test that we are getting right number of ipv6 lines"""
-    expected = 1012  # ipv6 lines
-    with open('./tests/test.log', 'rb') as file_obj:
-        file_obj = file_obj.read()
-        args = Arguments(['-I'], 0)
-        p = Parser(file_obj, args)
-        result = p.engine()
-        result_list = result.splitlines()
-
-    assert len(result_list) == expected
-
-
-def test_memory_ipv6_count_ipv6_log(test_log_file):
-    """Test that we are getting right number of ipv6 lines"""
-    expected = 8
-    with open('./tests/ipv6.log', 'rb') as file_obj:
-        args = Arguments(['-I', 'test.log'], 1)
-        p = Parser(file_obj, args)
-        result = p.engine()
-        print(result)
-        result_list = result.splitlines()
-    assert len(result_list) == expected
